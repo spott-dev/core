@@ -144,6 +144,13 @@ call-me-maybe@^1.0.1:
   resolved "https://registry.yarnpkg.com/call-me-maybe/-/call-me-maybe-1.0.1.tgz#26d208ea89e37b5cbde60250a15f031c16a4d66b"
   integrity sha1-JtII6onje1y95gJQoV8DHBak1ms=
 
+chai-as-promised@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/chai-as-promised/-/chai-as-promised-7.1.1.tgz#08645d825deb8696ee61725dbf590c012eb00ca0"
+  integrity sha512-azL6xMoi+uxu6z4rhWQ1jbdUhOMhis2PvscD/xjLqNMkv3BPPp2JyyuTHOrf9BOosGpNQ11v6BKv/g57RXbiaA==
+  dependencies:
+    check-error "^1.0.2"
+
 chai@^4.1.2, chai@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.2.0.tgz#760aa72cf20e3795e84b12877ce0e83737aa29e5"
@@ -761,9 +768,9 @@ js-yaml@^3.12.0:
     argparse "^1.0.7"
     esprima "^4.0.0"
 
-"json-schema-faker@git+https://github.com/voxfeed/json-schema-faker.git#bugfix-min-items":
+"json-schema-faker@https://github.com/voxfeed/json-schema-faker#bugfix-min-items":
   version "0.5.0-rc15"
-  resolved "git+https://github.com/voxfeed/json-schema-faker.git#26d34af05950a6abb8e9b6cb880f3982f4a5765f"
+  resolved "https://github.com/voxfeed/json-schema-faker#26d34af05950a6abb8e9b6cb880f3982f4a5765f"
   dependencies:
     deref "^0.7.1"
     json-schema-ref-parser "^5.0.0"

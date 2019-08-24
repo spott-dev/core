@@ -29,7 +29,8 @@
         "after": true,
         "beforeEach": true,
         "afterEach": true,
-        "testUtils": true
+        "testUtils": true,
+        "ROOT_PATH": true
     },
   
     "rules": {

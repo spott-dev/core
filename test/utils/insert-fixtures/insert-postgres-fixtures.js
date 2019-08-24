@@ -1,5 +1,5 @@
 const {isObject, isArray, snakeCase} = require('lodash');
-const knex = require('../../../database/engines/postgres');
+const knex = require('../../../lib/database/engines/postgres');
 
 function insertPostgresFixtures(fixtures, table) {
   const parsedFixtures = fixtures.map(parseFixture);

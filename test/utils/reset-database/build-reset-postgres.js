@@ -4,7 +4,7 @@ const IGNORE_TABLES = [
 ];
 
 async function buildResetPostgres() {
-  const knex = require('../../../database/engines/postgres');
+  const knex = require('../../../lib/database/engines/postgres');
   const tables = await getTablesToReset(knex);
 
   return () => {
