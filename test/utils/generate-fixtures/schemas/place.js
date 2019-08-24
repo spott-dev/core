@@ -1,11 +1,14 @@
-const {OBJECT, PLACE_ID} = require('../types');
+const {OBJECT, PLACE_ID, DATE, INTEGER} = require('../types');
 
 const PLACE_SCHEMA = OBJECT(
   {
-    id: PLACE_ID
+    id: PLACE_ID,
+    population: INTEGER(0),
+    createdAt: DATE,
+    updatedAt: DATE
   },
   [
-    'id'
+    'id', 'createdAt', 'updatedAt'
   ]
 );
 

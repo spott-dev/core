@@ -5,6 +5,9 @@ exports.up = function(knex) {
     .raw('CREATE EXTENSION IF NOT EXISTS ltree')
     .then(() => knex.schema.createTable(TABLE_NAME, (table) => {
       table.specificType('id', 'ltree').primary();
+      table.integer('population');
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
     }));
 };
 

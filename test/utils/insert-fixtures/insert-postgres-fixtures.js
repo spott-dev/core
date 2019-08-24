@@ -1,29 +1,10 @@
-const {isObject, isArray, snakeCase} = require('lodash');
+const {snakeCase} = require('lodash');
 const knex = require('../../../lib/database/engines/postgres');
+const {parseObjectKeys} = require('../../../lib/database/build-store/postgres/parsers');
 
 function insertPostgresFixtures(fixtures, table) {
-  const parsedFixtures = fixtures.map(parseFixture);
+  const parsedFixtures = parseObjectKeys(fixtures, snakeCase);
   return knex(table).insert(parsedFixtures);
-}
-
-function parseFixture(fixture) {
-  return Object.keys(fixture).reduce((result, key) => {
-    const parsedValue = parseValue(fixture[key]);
-    const parsedKey = snakeCase(key);
-    return {
-      ...result,
-      [parsedKey]: parsedValue
-    }
-  }, {});
-}
-
-function parseValue(currentValue) {
-  if (isObject(currentValue)) return parseFixture(currentValue);
-  if (isArray(currentValue)) return currentValue.map(item => {
-    if (isObject(item)) return parseFixture(item);
-    return item;
-  });
-  return currentValue;
 }
 
 module.exports = insertPostgresFixtures;
