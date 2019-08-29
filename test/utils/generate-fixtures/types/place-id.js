@@ -1,4 +1,4 @@
 module.exports = {
   type: 'string',
-  pattern: '^[A-Z]{2}(\.[0-9]{2,8}){0,4}$'
+  pattern: '^\\w{1,10}(\\.\\w{2,8}){0,4}$'
 };
