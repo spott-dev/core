@@ -3,9 +3,9 @@ const insertPostgresFixtures = require('./insert-postgres-fixtures');
 
 const POSTGRES = 'postgres';
 const FIXTURES_CONFIG = {
-  places: {
+  geonamesPlaces: {
     storage: POSTGRES,
-    collection: 'places'
+    collection: 'geonames_places'
   }
 };
 

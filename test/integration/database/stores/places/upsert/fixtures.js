@@ -1,7 +1,7 @@
 const {PLACE_ID_1} = require('./constants');
 
-const places = testUtils.generateFixtures({
-  type: 'place',
+const geonamesPlaces = testUtils.generateFixtures({
+  type: 'geonamesPlace',
   recipe: [
     {
       id: PLACE_ID_1,
@@ -13,5 +13,5 @@ const places = testUtils.generateFixtures({
 });
 
 module.exports = {
-  places
+  geonamesPlaces
 };

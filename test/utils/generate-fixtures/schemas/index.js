@@ -1,3 +1,3 @@
 module.exports = {
-  place: require('./place')
+  geonamesPlace: require('./geonames-place')
 };

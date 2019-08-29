@@ -4,7 +4,7 @@
   "description": "Business logic for Spott",
   "main": "lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha -r test/index.js test/integration/"
   },
   "author": "Manuel de la Torre",
   "license": "ISC",

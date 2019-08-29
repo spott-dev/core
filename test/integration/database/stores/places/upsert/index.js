@@ -3,7 +3,7 @@ const database = require(`${ROOT_PATH}/lib/database`);
 
 describe('Database | Places store | .upsert', () => {
   const fixtures = require('./fixtures');
-  const [PLACE_1] = fixtures.places;
+  const [PLACE_1] = fixtures.geonamesPlaces;
 
   beforeEach(testUtils.resetDatabase);
 
@@ -30,8 +30,9 @@ describe('Database | Places store | .upsert', () => {
 
       const newPopulation = 123456;
       const updatedItem = {
-        id: PLACE_ID_1,
-        population: newPopulation
+        ...PLACE_1,
+        population: newPopulation,
+        updatedAt: undefined
       };
       const newItem = await database.places.upsert(updatedItem);
       expect(newItem).to.be.an('object');
