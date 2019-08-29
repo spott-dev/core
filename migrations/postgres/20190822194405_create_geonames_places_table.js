@@ -24,7 +24,7 @@ exports.up = function(knex) {
       table.timestamp('created_at').defaultTo(knex.fn.now());
       table.timestamp('updated_at').defaultTo(knex.fn.now());
 
-      table.index('geoname_id');
+      table.unique('geoname_id');
       table.index('type');
       table.index('name');
       table.index('feature_class');

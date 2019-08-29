@@ -7,6 +7,10 @@
     "test": "mocha -r test/index.js test/integration/"
   },
   "author": "Manuel de la Torre",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/spott-dev/core"
+  },
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.1.0",
