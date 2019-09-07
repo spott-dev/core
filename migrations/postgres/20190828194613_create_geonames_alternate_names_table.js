@@ -7,6 +7,7 @@ exports.up = function(knex) {
     table.integer('geoname_id').notNullable();
     table.string('name');
     table.string('language');
+    table.string('locale');
     table.boolean('is_preferred').notNullable();
     table.boolean('is_short').notNullable();
     table.boolean('is_colloquial').notNullable();
@@ -19,8 +20,6 @@ exports.up = function(knex) {
     table.index('geoname_id');
     table.index('name');
     table.index('language');
-
-    table.foreign('geoname_id').references(`${PLACES_TABLE_NAME}.geoname_id`);
   });
 };
 

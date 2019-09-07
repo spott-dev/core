@@ -19,6 +19,7 @@ exports.up = function(knex) {
     table.string('postal_code_regex');
     table.specificType('phone_codes', 'text[]').defaultTo('{}');
     table.specificType('languages', 'text[]').defaultTo('{}');
+    table.specificType('locales', 'text[]').defaultTo('{}');
     table.specificType('neighbour_country_ids', 'ltree[]').defaultTo('{}');
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());
