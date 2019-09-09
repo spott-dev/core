@@ -2,19 +2,19 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const database = require(`${ROOT_PATH}/lib/database`);
 const {
-  PLACE_ID,
-  NON_EXISTENT_PLACE_ID
+  PLACE_GEONAME_ID,
+  NON_EXISTENT_PLACE_GEONAME_ID
 } = require('./constants');
 
 const populateMock = sinon.spy(function(params) {
   return params.place;
 });
 
-const getById = proxyquire(`${ROOT_PATH}/lib/use-cases/places/get-by-id`, {
+const getById = proxyquire(`${ROOT_PATH}/lib/use-cases/places/get-by-geoname-id`, {
   './populate': populateMock
 });
 
-describe('UseCases | Places | .getById', () => {
+describe('UseCases | Places | .getByGeonameId', () => {
   const fixtures = require('./fixtures');
 
   before(async () => {
@@ -22,18 +22,18 @@ describe('UseCases | Places | .getById', () => {
     await testUtils.insertFixtures(fixtures);
   });
 
-  it('should return a place found by id', async () => {
-    const place = await getById({database, id: PLACE_ID});
+  it('should return a place found by geonameId', async () => {
+    const place = await getById({database, geonameId: PLACE_GEONAME_ID});
     expect(place).to.be.an('object');
-    expect(place.id).to.be.equal(PLACE_ID);
+    expect(place.geonameId).to.be.equal(PLACE_GEONAME_ID);
   });
 
   it('should populate the place before returning it', async () => {
     populateMock.resetHistory();
 
-    const id = PLACE_ID;
+    const geonameId = PLACE_GEONAME_ID;
     const languages = ['en', 'it', 'de'];
-    const place = await getById({database, id, languages});
+    const place = await getById({database, geonameId, languages});
 
     expect(populateMock.callCount).to.be.equal(1);
 
@@ -44,7 +44,7 @@ describe('UseCases | Places | .getById', () => {
   });
 
   it('should return null for a non existent place', async () => {
-    const place = await getById({database, id: NON_EXISTENT_PLACE_ID});
+    const place = await getById({database, geonameId: NON_EXISTENT_PLACE_GEONAME_ID});
     expect(place).to.be.equal(null);
   });
 });
