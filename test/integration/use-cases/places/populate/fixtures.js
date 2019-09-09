@@ -1,6 +1,8 @@
 const {
   CITY_ID,
   CITY_GEONAME_ID,
+  ADMIN_DIVISION_1_ID,
+  ADMIN_DIVISION_2_ID,
   COUNTRY_ID,
   COUNTRY_GEONAME_ID,
   DEFAULT_ALTERNATE_NAME
@@ -19,8 +21,8 @@ const geonamesPlaces = testUtils.generateFixtures({
       featureClass: 'P',
       featureCode: 'PPLC',
       countryId: COUNTRY_ID,
-      adminDivision1Id: 'MX.111',
-      adminDivision2Id: 'MX.222',
+      adminDivision1Id: ADMIN_DIVISION_1_ID,
+      adminDivision2Id: ADMIN_DIVISION_2_ID,
       population: 10000000,
       latitude: -42,
       longitude: 123,
@@ -44,6 +46,14 @@ const geonamesPlaces = testUtils.generateFixtures({
       longitude: undefined,
       elevation: undefined,
       timezoneId: undefined
+    }, {
+      id: ADMIN_DIVISION_1_ID,
+      type: 'ADMIN_DIVISION_1',
+      name: 'admin division 1'
+    }, {
+      id: ADMIN_DIVISION_2_ID,
+      type: 'ADMIN_DIVISION_2',
+      name: 'admin division 2'
     }
   ]
 });

@@ -15,6 +15,12 @@ const EXPECTED_COUNTRY_PROPERTIES = [
 
 describe('UseCases | Places | .populate', () => {
   const fixtures = require('./fixtures');
+  const [
+    ,
+    countryFixture,
+    adminDivision1Fixture,
+    adminDivision2Fixture
+  ] = fixtures.geonamesPlaces;
 
   before(async () => {
     await testUtils.resetDatabase();
@@ -36,6 +42,13 @@ describe('UseCases | Places | .populate', () => {
       Object.keys(place).forEach(key => {
         expect(result[key]).to.be.eql(place[key]);
       });
+    });
+
+    it('should add parents information', async () => {
+      const result = await populate({database, place});
+      expectParent(result.adminDivision1, adminDivision1Fixture);
+      expectParent(result.adminDivision2, adminDivision2Fixture);
+      expectParent(result.country, countryFixture);
     });
 
     it('should not return properties of a country', async () => {
@@ -75,6 +88,13 @@ describe('UseCases | Places | .populate', () => {
         expect(result[countryProperty]).to.be.eql(country[EXPECTED_COUNTRY_PROPERTIES]);
       });
     });
+
+    it('should not have parents information', async () => {
+      const result = await populate({database, place});
+      expect(result.adminDivision1).to.be.a('undefined');
+      expect(result.adminDivision2).to.be.a('undefined');
+      expect(result.country).to.be.a('undefined');
+    });
   });
 
   describe('Handle languages', () => {
@@ -111,3 +131,11 @@ describe('UseCases | Places | .populate', () => {
     });
   });
 });
+
+function expectParent(actualParent, expectedParent) {
+  expect(actualParent).to.be.an('object');
+  expect(actualParent.id).to.be.equal(expectedParent.id);
+  expect(actualParent.geonameId).to.be.equal(expectedParent.geonameId);
+  expect(actualParent.name).to.be.equal(expectedParent.name);
+  expect(actualParent.localizedNames).to.be.an('object');
+}

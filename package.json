@@ -5,7 +5,7 @@
   "description": "Business logic for Spott",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha -r test/index.js test/integration/"
+    "test": "mocha -r test/index.js test/unit test/integration"
   },
   "author": "Manuel de la Torre",
   "repository": {

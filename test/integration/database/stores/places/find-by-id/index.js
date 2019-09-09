@@ -15,16 +15,28 @@ describe('Database | Places store | .findById', () => {
     expect(place.id).to.be.equal(PLACE_ID_1);
   });
 
-  const NULL_TEST_CASES = ['NOT_EXISTENT_ID', null, true, 0];
+  it('should support fields selection', async () => {
+    const fields = ['id', 'geonameId', 'name'];
+    const place = await database.places.findById(PLACE_ID_1, {fields});
+    expect(place).to.be.an('object');
+    expect(place.id).to.be.equal(PLACE_ID_1);
 
-  NULL_TEST_CASES.forEach(testCase => {
-    it(`should return null when no place exist with an id (${testCase})`, async () => {
-      const result = await database.places.findById(testCase);
-      expect(result).to.be.equal(null);
-    });
+    const actualFields = Object.keys(place);
+    expect(actualFields).to.be.deep.equal(fields);
   });
 
   it('should throw error when not sending an id', () => {
     return expect(database.places.findById()).to.be.rejectedWith('Undefined binding(s) detected when compiling FIRST query: select * from "geonames_places" where "id" = ? limit ?');
+  });
+
+  describe('Returning null', () => {
+    const NULL_TEST_CASES = ['NOT_EXISTENT_ID', null, true, 0];
+
+    NULL_TEST_CASES.forEach(testCase => {
+      it(`should return null when no place exist with an id (${testCase})`, async () => {
+        const result = await database.places.findById(testCase);
+        expect(result).to.be.equal(null);
+      });
+    });
   });
 });
