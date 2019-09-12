@@ -5,10 +5,10 @@ const path = require('path');
 const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const TestUtils = require('spott-test-utils');
-const {postgres} = require('../lib/database/engines');
+const {engines} = require('../lib/database');
 const ROOT_PATH = path.join(__dirname, '..');
 
-global.testUtils = new TestUtils({postgres});
+global.testUtils = new TestUtils({engines});
 global.expect = chai.expect;
 global.ROOT_PATH = ROOT_PATH;
 

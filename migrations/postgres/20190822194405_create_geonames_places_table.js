@@ -12,9 +12,9 @@ exports.up = function(knex) {
       table.specificType('alternate_names', 'text[]').defaultTo('{}');
       table.string('feature_class');
       table.string('feature_code');
-      table.string('country_id').notNullable();
-      table.string('admin_division_1_id');
-      table.string('admin_division_2_id');
+      table.specificType('country_id', 'ltree').notNullable();
+      table.specificType('admin_division_1_id', 'ltree');
+      table.specificType('admin_division_2_id', 'ltree');
       table.integer('population');
       table.float('latitude');
       table.float('longitude');

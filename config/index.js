@@ -7,5 +7,17 @@ module.exports = {
     user: env.POSTGRESQL_USER || 'postgres',
     password: env.POSTGRESQL_PASS || null,
     database: env.POSTGRESQL_DATABASE
+  }),
+
+  getElasticsearchConfig: () => ({
+    node: env.ELASTICSEARCH_NODE,
+    auth: {
+      username: env.ELASTICSEARCH_USERNAME,
+      password: env.ELASTICSEARCH_PASSWORD
+    }
+  }),
+
+  getElasticsearchCollections: () => ({
+    places: env.ELASTICSEARCH_PLACES_INDEX
   })
 };
