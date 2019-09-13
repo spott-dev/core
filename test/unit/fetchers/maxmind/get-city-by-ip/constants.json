@@ -1,0 +1,7 @@
+{
+  "AUTH_USERNAME": "username",
+  "AUTH_PASSWORD": "password",
+  "IP_WITH_CITY": "189.217.104.79",
+  "IP_WITHOUT_CITY": "189.163.219.127",
+  "IP_WITH_ERROR": "127.0.0.1"
+}

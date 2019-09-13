@@ -19,5 +19,10 @@ module.exports = {
 
   getElasticsearchCollections: () => ({
     places: env.ELASTICSEARCH_PLACES_INDEX
+  }),
+
+  getMaxmindCredentials: () => ({
+    username: env.MAXMIND_USERNAME,
+    password: env.MAXMIND_PASSWORD
   })
 };
