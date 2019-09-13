@@ -15,6 +15,7 @@ describe('Database | IndexedPlacesStore | .upsert', () => {
       const newItem = await database.indexedPlaces.upsert(PLACE_1);
       expect(newItem).to.be.an('object');
       expect(newItem.id).to.be.equal(PLACE_ID_1);
+      expect(newItem.updatedAt.getTime()).to.be.closeTo(Date.now(), 10000);
     });
   });
 
