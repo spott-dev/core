@@ -20,16 +20,15 @@ describe('Fetchers | MaxmindFetcher | .getCityByIp', () => {
       coordinates: {
         latitude: 19.4342,
         longitude: -99.1386,
-        accuracyRadius: 20
+        accuracyRadiusKm: 20
       },
-      timezone: 'America/Mexico_City',
+      timezoneId: 'America/Mexico_City',
       country: {
-        id: 'MX',
+        iso2: 'MX',
         geonameId: '3996063',
         name: 'Mexico'
       },
       city: {
-        id: '3530597',
         geonameId: '3530597',
         name: 'Mexico City'
       }
@@ -48,11 +47,11 @@ describe('Fetchers | MaxmindFetcher | .getCityByIp', () => {
       coordinates: {
         latitude: 19.4371,
         longitude: -99.0111,
-        accuracyRadius: 1000
+        accuracyRadiusKm: 1000
       },
-      timezone: null,
+      timezoneId: null,
       country: {
-        id: 'MX',
+        iso2: 'MX',
         geonameId: '3996063',
         name: 'Mexico'
       },
