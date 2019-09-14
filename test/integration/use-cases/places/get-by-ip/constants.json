@@ -1,6 +1,7 @@
 {
   "IP_IN_CACHE": "127.0.0.0",
-  "IP_MATCHING_CITY": "127.0.0.1",
+  "IP_IN_CACHE_NULL": "127.0.0.1",
+  "IP_MATCHING_CITY": "127.0.0.2",
   "IP_NOT_FOUND": "127.0.0.3",
   "CITY_ID_1": "GDL",
   "CITY_ID_2": "MTY"

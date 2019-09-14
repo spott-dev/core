@@ -1,5 +1,6 @@
 const {
   IP_IN_CACHE,
+  IP_IN_CACHE_NULL,
   CITY_ID_1,
   CITY_ID_2
 } = require('./constants');
@@ -25,6 +26,11 @@ const ipRelations = testUtils.generateFixtures({
     {
       ip: IP_IN_CACHE,
       placeId: CITY_ID_1,
+      expiresAt: VALID_EXPIRES_AT
+    },
+    {
+      ip: IP_IN_CACHE_NULL,
+      placeId: null,
       expiresAt: VALID_EXPIRES_AT
     }
   ]

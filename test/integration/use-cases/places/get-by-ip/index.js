@@ -3,6 +3,7 @@ const proxyquire = require('proxyquire');
 const database = require(`${ROOT_PATH}/lib/database`);
 const {
   IP_IN_CACHE,
+  IP_IN_CACHE_NULL,
   IP_MATCHING_CITY,
   IP_NOT_FOUND,
   CITY_ID_1,
@@ -47,6 +48,15 @@ describe('UseCases | Places | .getByIp', () => {
 
     expect(discoverByIpMock.callCount).to.be.equal(0);
     expectPopulateCall(place, languages);
+  });
+
+  it('should return null where the relation is already in cache', async () => {
+    const ip = IP_IN_CACHE_NULL;
+    const place = await getByIp({database, ip, languages});
+    expect(place).to.be.equal(null);
+
+    expect(discoverByIpMock.callCount).to.be.equal(0);
+    expect(populateMock.callCount).to.be.equal(0);
   });
 
   it('should return a city which is not it cache but discovered', async () => {
