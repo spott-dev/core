@@ -1,5 +1,4 @@
 const TABLE_NAME = 'geonames_alternate_names';
-const PLACES_TABLE_NAME = 'geonames_places';
 
 exports.up = function(knex) {
   return knex.schema.createTable(TABLE_NAME, (table) => {

@@ -4,7 +4,7 @@ const database = require(`${ROOT_PATH}/lib/database`);
 describe('Database | IndexedPlacesStore | .findById', () => {
   const fixtures = require('./fixtures');
 
-  beforeEach(async () => {
+  before(async () => {
     await testUtils.resetDatabase();
     await testUtils.insertFixtures(fixtures);
   });
