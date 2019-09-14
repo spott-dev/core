@@ -1,5 +1,8 @@
 const {env} = process;
 
+const ONE_DAY_IN_MS = 24 * 60 * 60 * 1000;
+const THREE_MONTHS_IN_MS = 3 * 30 * ONE_DAY_IN_MS;
+
 module.exports = {
   getPostgresConfig: () => ({
     host: env.POSTGRESQL_HOST || 'localhost',
@@ -24,5 +27,7 @@ module.exports = {
   getMaxmindCredentials: () => ({
     username: env.MAXMIND_USERNAME,
     password: env.MAXMIND_PASSWORD
-  })
+  }),
+
+  getIpRelationsTtl: () => THREE_MONTHS_IN_MS
 };
