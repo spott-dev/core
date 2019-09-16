@@ -13,6 +13,11 @@ const EXPECTED_COUNTRY_PROPERTIES = [
   'phoneCodes', 'languages', 'locales', 'neighbourCountryIds'
 ];
 
+const OMIT_PARENT_PROPERTIES = [
+  'asciiName', 'alternateNames', 'featureClass', 'featureCode', 'population', 'latitude',
+  'longitude', 'elevation', 'timezoneId', 'geonamesUpdatedAt', 'createdAt', 'updatedAt'
+];
+
 describe('UseCases | Places | .populate', () => {
   const fixtures = require('./fixtures');
   const [
@@ -138,4 +143,7 @@ function expectParent(actualParent, expectedParent) {
   expect(actualParent.geonameId).to.be.equal(expectedParent.geonameId);
   expect(actualParent.name).to.be.equal(expectedParent.name);
   expect(actualParent.localizedNames).to.be.an('object');
+  OMIT_PARENT_PROPERTIES.forEach(omitProperty => {
+    expect(actualParent[omitProperty]).to.be.an('undefined');
+  });
 }

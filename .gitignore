@@ -83,6 +83,9 @@ typings/
 # DynamoDB Local files
 .dynamodb/
 
+# IDEs config
+.vscode
+
 # dotenv environment variables file
 .env/*
 !.env/default
