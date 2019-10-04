@@ -20,7 +20,7 @@ const discoverByIp = proxyquire(`${ROOT_PATH}/lib/use-cases/places/discover-by-i
   '../../services': { IpInsightsService: IpInsightsServiceMock }
 });
 
-const findByNameAndFilterSpy = sinon.spy(database.indexedPlaces, 'findByNameAndFilter');
+const findByQueryAndFilterSpy = sinon.spy(database.indexedPlaces, 'findByQueryAndFilter');
 
 describe('UseCases | Places | .discoverByIp', () => {
   const responses = require('./responses');
@@ -30,7 +30,7 @@ describe('UseCases | Places | .discoverByIp', () => {
     await testUtils.resetDatabase();
     await testUtils.insertFixtures(fixtures);
     getCityByIpMock.resetHistory();
-    findByNameAndFilterSpy.resetHistory();
+    findByQueryAndFilterSpy.resetHistory();
   });
 
   describe('When ip insights matches with existing place', () => {
@@ -44,7 +44,7 @@ describe('UseCases | Places | .discoverByIp', () => {
       expect(place.id).to.be.equal(CITY_ID);
 
       expectGetCityByIpCall(ip);
-      expect(findByNameAndFilterSpy.callCount).to.be.equal(0);
+      expect(findByQueryAndFilterSpy.callCount).to.be.equal(0);
     });
 
     it('should return a country matching ip insights when city is not available', async () => {
@@ -57,7 +57,7 @@ describe('UseCases | Places | .discoverByIp', () => {
       expect(place.id).to.be.equal(COUNTRY_ID);
 
       expectGetCityByIpCall(ip);
-      expect(findByNameAndFilterSpy.callCount).to.be.equal(0);
+      expect(findByQueryAndFilterSpy.callCount).to.be.equal(0);
     });
   });
 
@@ -71,7 +71,7 @@ describe('UseCases | Places | .discoverByIp', () => {
       expect(place).to.be.equal(null);
 
       expectGetCityByIpCall(ip);
-      expect(findByNameAndFilterSpy.callCount).to.be.equal(0);
+      expect(findByQueryAndFilterSpy.callCount).to.be.equal(0);
     });
   });
 
@@ -86,9 +86,9 @@ describe('UseCases | Places | .discoverByIp', () => {
       expect(place.id).to.be.equal(CITY_ID);
 
       expectGetCityByIpCall(ip);
-      expectFindByNameAndFilterCall('Guadalajara', {
+      expectFindByQueryAndFilterCall('Guadalajara', {
         types: ['CITY'],
-        countries: ['MX'],
+        countryIds: ['MX'],
         coordinates: {
           latitude: 21,
           longitude: -103,
@@ -105,9 +105,9 @@ describe('UseCases | Places | .discoverByIp', () => {
       expect(place).to.be.equal(null);
 
       expectGetCityByIpCall(ip);
-      expectFindByNameAndFilterCall('Monterrey', {
+      expectFindByQueryAndFilterCall('Monterrey', {
         types: ['CITY'],
-        countries: ['MX'],
+        countryIds: ['MX'],
         coordinates: {
           latitude: 25,
           longitude: -100,
@@ -125,10 +125,12 @@ function expectGetCityByIpCall(expectedIp) {
   expect(ip).to.be.equal(expectedIp);
 }
 
-function expectFindByNameAndFilterCall(expectedName, expectedFilter) {
-  expect(findByNameAndFilterSpy.callCount).to.be.equal(1);
+function expectFindByQueryAndFilterCall(expectedQuery, expectedFilter) {
+  expect(findByQueryAndFilterSpy.callCount).to.be.equal(1);
+  const expectedOptions = { limit: 1, fields: ['id'] };
 
-  const [name, filter] = findByNameAndFilterSpy.firstCall.args;
-  expect(name).to.be.equal(expectedName);
+  const [query, filter, options] = findByQueryAndFilterSpy.firstCall.args;
+  expect(query).to.be.equal(expectedQuery);
   expect(filter).to.be.eql(expectedFilter);
+  expect(options).to.be.eql(expectedOptions);
 }
