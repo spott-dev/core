@@ -2,6 +2,7 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 
 const findByQueryAndFilter = sinon.stub().resolves([]);
+const findByAutocompleteAndFilter = sinon.stub().resolves([]);
 
 const populateIndexedPlaceMock = sinon.stub();
 
@@ -10,13 +11,59 @@ const getByQuery = proxyquire(`${ROOT_PATH}/lib/use-cases/places/get-by-query`, 
 });
 
 const database = {
-  indexedPlaces: { findByQueryAndFilter }
+  indexedPlaces: {
+    findByAutocompleteAndFilter,
+    findByQueryAndFilter
+  }
 };
 
 describe('UseCases | Places | .getByQuery', () => {
   beforeEach(() => {
+    findByAutocompleteAndFilter.resetHistory();
     findByQueryAndFilter.resetHistory();
     populateIndexedPlaceMock.resetHistory();
+  });
+
+  it('should throw error when not sending a valid "searchMethod" parameter', () => {
+    const query = 'Place query';
+    const params = {
+      database,
+      query
+    };
+
+    return expect(getByQuery(params)).to.be.rejectedWith(Error, 'Invalid searchMethod "undefined". Valids: SIMPLE, AUTOCOMPLETE');
+  });
+
+  it('should use .findByAutocompleteAndFilter database method when sending searchMethod = "AUTOCOMPLETE"', async () => {
+    const query = 'Place query';
+
+    await getByQuery({
+      database,
+      query,
+      searchMethod: 'AUTOCOMPLETE'
+    });
+
+    expect(findByAutocompleteAndFilter.callCount).to.be.equal(1);
+    expect(findByQueryAndFilter.callCount).to.be.equal(0);
+
+    const [actualQuery] = findByAutocompleteAndFilter.firstCall.args;
+    expect(actualQuery).to.be.equal(query);
+  });
+
+  it('should use .findByQueryAndFilter database method when sending searchMethod = "SIMPLE"', async () => {
+    const query = 'Place query';
+
+    await getByQuery({
+      database,
+      query,
+      searchMethod: 'SIMPLE'
+    });
+
+    expect(findByAutocompleteAndFilter.callCount).to.be.equal(0);
+    expect(findByQueryAndFilter.callCount).to.be.equal(1);
+
+    const [actualQuery] = findByQueryAndFilter.firstCall.args;
+    expect(actualQuery).to.be.equal(query);
   });
 
   it('should send query to database method correctly', async () => {
@@ -24,7 +71,8 @@ describe('UseCases | Places | .getByQuery', () => {
 
     await getByQuery({
       database,
-      query
+      query,
+      searchMethod: 'SIMPLE'
     });
 
     expect(findByQueryAndFilter.callCount).to.be.equal(1);
@@ -50,7 +98,8 @@ describe('UseCases | Places | .getByQuery', () => {
       countryIds,
       adminDivision1Ids,
       adminDivision2Ids,
-      coordinates
+      coordinates,
+      searchMethod: 'SIMPLE'
     });
 
     expect(findByQueryAndFilter.callCount).to.be.equal(1);
@@ -73,7 +122,8 @@ describe('UseCases | Places | .getByQuery', () => {
     await getByQuery({
       database,
       limit,
-      skip
+      skip,
+      searchMethod: 'SIMPLE'
     });
 
     expect(findByQueryAndFilter.callCount).to.be.equal(1);
@@ -88,14 +138,15 @@ describe('UseCases | Places | .getByQuery', () => {
   });
 
   it('should populate indexedPlace correctly', async () => {
-    const languages = ['en', 'it'];
     const INDXD_PLACE_1 = {id: 1, score: 100};
     const INDXD_PLACE_2 = {id: 2, score: 50};
     const INDXD_PLACE_3 = {id: 3, score: 25};
+    const languages = ['en', 'it'];
+    const searchMethod = 'SIMPLE';
 
     findByQueryAndFilter.resolves([INDXD_PLACE_1, INDXD_PLACE_2, INDXD_PLACE_3]);
 
-    await getByQuery({database, languages});
+    await getByQuery({database, languages, searchMethod});
 
     expect(populateIndexedPlaceMock.callCount).to.be.equal(3);
 
@@ -111,6 +162,7 @@ describe('UseCases | Places | .getByQuery', () => {
     const PPLTD_PLACE_1 = 'PLACE_1';
     const PPLTD_PLACE_2 = 'PLACE_2';
     const PPLTD_PLACE_3 = 'PLACE_3';
+    const searchMethod = 'SIMPLE';
 
     findByQueryAndFilter.resolves([1, 2, 3]);
 
@@ -118,7 +170,7 @@ describe('UseCases | Places | .getByQuery', () => {
     populateIndexedPlaceMock.onCall(1).returns(PPLTD_PLACE_2);
     populateIndexedPlaceMock.onCall(2).returns(PPLTD_PLACE_3);
 
-    const results = await getByQuery({database});
+    const results = await getByQuery({database, searchMethod});
 
     expect(populateIndexedPlaceMock.callCount).to.be.equal(3);
 
@@ -133,6 +185,7 @@ describe('UseCases | Places | .getByQuery', () => {
   it('should skip nulls from result', async () => {
     const PPLTD_PLACE_1 = 'PLACE_1';
     const PPLTD_PLACE_2 = 'PLACE_2';
+    const searchMethod = 'SIMPLE';
 
     findByQueryAndFilter.resolves([1, 2, 3]);
 
@@ -140,7 +193,7 @@ describe('UseCases | Places | .getByQuery', () => {
     populateIndexedPlaceMock.onCall(1).returns(null);
     populateIndexedPlaceMock.onCall(2).returns(PPLTD_PLACE_2);
 
-    const results = await getByQuery({database});
+    const results = await getByQuery({database, searchMethod});
 
     expect(populateIndexedPlaceMock.callCount).to.be.equal(3);
 

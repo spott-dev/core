@@ -9,11 +9,13 @@ const GEO_POINT = {type: 'geo_point'};
 const DATE = {type: 'date'};
 
 const AUTOCOMPLETE_STRING = {
-  type: 'completion'
+  type: 'search_as_you_type',
+  norms: false
 };
 
 const NAMES = {
   type: 'text',
+  norms: false,
   fields: {
     raw: NOT_ANALYZED_INDEX_STRING,
     autocomplete: AUTOCOMPLETE_STRING
