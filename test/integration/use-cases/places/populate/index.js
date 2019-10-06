@@ -60,7 +60,7 @@ describe('UseCases | Places | .populate', () => {
       const result = await populate({database, place});
       expect(result.type).to.be.equal('CITY');
 
-      Object.keys(EXPECTED_COUNTRY_PROPERTIES).forEach(countryProperty => {
+      EXPECTED_COUNTRY_PROPERTIES.forEach(countryProperty => {
         expect(result[countryProperty]).to.be.a('undefined');
       });
     });
@@ -76,12 +76,13 @@ describe('UseCases | Places | .populate', () => {
     });
 
     it('should keep all default propierties of the place', async () => {
+      const IGNORE_PROPERTIES = ['population', 'createdAt', 'updatedAt'];
       const result = await populate({database, place});
       expect(result).to.be.an('object');
       expect(result.id).to.be.equal(COUNTRY_ID);
 
       Object.keys(place).forEach(key => {
-        expect(result[key]).to.be.eql(place[key]);
+        if (!IGNORE_PROPERTIES.includes(key)) expect(result[key]).to.be.eql(place[key]);
       });
     });
 
@@ -89,8 +90,8 @@ describe('UseCases | Places | .populate', () => {
       const result = await populate({database, place});
       expect(result.type).to.be.equal('COUNTRY');
 
-      Object.keys(EXPECTED_COUNTRY_PROPERTIES).forEach(countryProperty => {
-        expect(result[countryProperty]).to.be.eql(country[EXPECTED_COUNTRY_PROPERTIES]);
+      EXPECTED_COUNTRY_PROPERTIES.forEach(countryProperty => {
+        expect(result[countryProperty]).to.be.eql(country[countryProperty]);
       });
     });
 
