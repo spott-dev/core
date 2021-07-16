@@ -18,7 +18,6 @@ describe('Database | Places store | .getAllGeonameIds', () => {
   it('should find a place given its id', async () => {
     const geonameIds = await database.places.getAllGeonameIds();
     expect(geonameIds).to.be.an('array');
-    expect(geonameIds).to.be.eql(ALL_GEONAME_IDS);
+    expect(geonameIds).to.contain(...ALL_GEONAME_IDS);
   });
-
 });

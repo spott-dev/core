@@ -22,7 +22,7 @@ describe('Database | IpRelations store | .findByIp', () => {
   });
 
   it('should throw error when not sending an id', () => {
-    const expectedMessage = 'Undefined binding(s) detected when compiling FIRST query: select * from "ip_relations" where "ip" = ? limit ?';
+    const expectedMessage = 'Undefined binding(s)';
     return expect(database.ipRelations.findByIp()).to.be.rejectedWith(expectedMessage);
   });
 

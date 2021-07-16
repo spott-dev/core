@@ -26,7 +26,7 @@ describe('Database | Places store | .findById', () => {
   });
 
   it('should throw error when not sending an id', () => {
-    return expect(database.places.findById()).to.be.rejectedWith('Undefined binding(s) detected when compiling FIRST query: select * from "geonames_places" where "id" = ? limit ?');
+    return expect(database.places.findById()).to.be.rejectedWith('Undefined binding(s)');
   });
 
   describe('Returning null', () => {
