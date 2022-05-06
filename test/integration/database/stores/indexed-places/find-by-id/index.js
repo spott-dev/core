@@ -26,7 +26,8 @@ describe('Database | IndexedPlacesStore | .findById', () => {
   });
 
   it('should throw error when not sending an id', () => {
-    return expect(database.indexedPlaces.findById()).to.be.rejectedWith('Missing required parameter: id');
+    const expectedMessage = 'Cannot read properties of undefined (reading \'toString\')';
+    return expect(database.indexedPlaces.findById()).to.be.rejectedWith(expectedMessage);
   });
 
   describe('Returning null', () => {
