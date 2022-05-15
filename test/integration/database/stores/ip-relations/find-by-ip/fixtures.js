@@ -4,7 +4,7 @@ const geonamesPlaces = testUtils.generateFixtures({
   type: 'geonamesPlace',
   recipe: [
     {
-      id: PLACE_ID
+      id: PLACE_ID,
     }
   ]
 });

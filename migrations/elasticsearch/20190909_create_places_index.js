@@ -25,6 +25,7 @@ const NAMES = {
 const POLITICAL_DIVISION = {
   properties: {
     id: NOT_ANALYZED_INDEX_STRING,
+    code: NOT_ANALYZED_INDEX_STRING,
     geonameId: INTEGER,
     names: NAMES
   }
@@ -33,6 +34,7 @@ const POLITICAL_DIVISION = {
 const PLACES_MAPPING = {
   properties: {
     id: NOT_ANALYZED_INDEX_STRING,
+    code: NOT_ANALYZED_INDEX_STRING,
     geonameId: INTEGER,
     population: INTEGER,
     elevation: INTEGER,
@@ -47,7 +49,7 @@ const PLACES_MAPPING = {
   }
 };
 
-return createIndex({
+createIndex({
   elasticsearch,
   index: elasticsearch.getIndex(COLLECTION),
   mapping: PLACES_MAPPING

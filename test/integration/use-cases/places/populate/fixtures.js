@@ -2,8 +2,11 @@ const {
   CITY_ID,
   CITY_GEONAME_ID,
   ADMIN_DIVISION_1_ID,
+  ADMIN_DIVISION_1_CODE,
   ADMIN_DIVISION_2_ID,
+  ADMIN_DIVISION_2_CODE,
   COUNTRY_ID,
+  COUNTRY_CODE,
   COUNTRY_GEONAME_ID,
   DEFAULT_ALTERNATE_NAME
 } = require('./constants');
@@ -20,9 +23,9 @@ const geonamesPlaces = testUtils.generateFixtures({
       alternateNames: ['GDL', 'Guanatos'],
       featureClass: 'P',
       featureCode: 'PPLC',
-      countryId: COUNTRY_ID,
-      adminDivision1Id: ADMIN_DIVISION_1_ID,
-      adminDivision2Id: ADMIN_DIVISION_2_ID,
+      countryCode: COUNTRY_CODE,
+      adminDivision1Code: ADMIN_DIVISION_1_CODE,
+      adminDivision2Code: ADMIN_DIVISION_2_CODE,
       population: 10000000,
       latitude: -42,
       longitude: 123,
@@ -31,6 +34,7 @@ const geonamesPlaces = testUtils.generateFixtures({
     },
     {
       id: COUNTRY_ID,
+      code: COUNTRY_CODE,
       geonameId: COUNTRY_GEONAME_ID,
       type: 'COUNTRY',
       name: 'Mexico',
@@ -38,9 +42,9 @@ const geonamesPlaces = testUtils.generateFixtures({
       alternateNames: ['Mex', 'Mexiko'],
       featureClass: 'P',
       featureCode: 'PCLI',
-      countryId: COUNTRY_ID,
-      adminDivision1Id: undefined,
-      adminDivision2Id: undefined,
+      countryCode: COUNTRY_ID,
+      adminDivision1Code: undefined,
+      adminDivision2Code: undefined,
       population: 100000000,
       latitude: undefined,
       longitude: undefined,
@@ -48,10 +52,12 @@ const geonamesPlaces = testUtils.generateFixtures({
       timezoneId: undefined
     }, {
       id: ADMIN_DIVISION_1_ID,
+      code: ADMIN_DIVISION_1_CODE,
       type: 'ADMIN_DIVISION_1',
       name: 'admin division 1'
     }, {
       id: ADMIN_DIVISION_2_ID,
+      code: ADMIN_DIVISION_2_CODE,
       type: 'ADMIN_DIVISION_2',
       name: 'admin division 2'
     }
