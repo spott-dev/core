@@ -3,7 +3,7 @@ const database = require(`${ROOT_PATH}/lib/database`);
 describe('Database | IndexedPlacesStore | .findByAutocompleteAndFilter', () => {
   const fixtures = require('./fixtures');
 
-  before(async () => {
+  beforeEach(async () => {
     await testUtils.resetDatabase();
     await testUtils.insertFixtures(fixtures);
   });

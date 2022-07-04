@@ -21,7 +21,7 @@
     "fullTrace": true,
     "recursive": true,
     "exit": false,
-    "bail": true
+    "bail": false
   },
   "dependencies": {
     "@elastic/elasticsearch": "8.1.0",
