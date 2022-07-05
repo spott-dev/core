@@ -1,5 +1,5 @@
 const database = require(`${ROOT_PATH}/lib/database`);
-const populate = require(`${ROOT_PATH}/lib/use-cases/places/populate`);
+const populatePlaces = require(`${ROOT_PATH}/lib/use-cases/places/populate-places`);
 const {
   CITY_ID,
   COUNTRY_ID,
@@ -18,7 +18,7 @@ const OMIT_PARENT_PROPERTIES = [
   'longitude', 'elevation', 'timezoneId', 'geonamesUpdatedAt', 'createdAt', 'updatedAt'
 ];
 
-describe('UseCases | Places | .populate', () => {
+describe('UseCases | Places | .populatePlaces', () => {
   const fixtures = require('./fixtures');
   const [
     ,
@@ -39,8 +39,8 @@ describe('UseCases | Places | .populate', () => {
       place = await database.places.findById(CITY_ID);
     });
 
-    it('should keep all default propierties of the place', async () => {
-      const result = await populate({database, place});
+    it('should keep all default properties of the place', async () => {
+      const [result] = await populatePlaces({database, places: [place]});
       expect(result).to.be.an('object');
       expect(result.id).to.be.equal(CITY_ID);
 
@@ -50,14 +50,14 @@ describe('UseCases | Places | .populate', () => {
     });
 
     it('should add parents information', async () => {
-      const result = await populate({database, place});
+      const [result] = await populatePlaces({database, places: [place]});
       expectParent(result.adminDivision1, adminDivision1Fixture);
       expectParent(result.adminDivision2, adminDivision2Fixture);
       expectParent(result.country, countryFixture);
     });
 
     it('should not return properties of a country', async () => {
-      const result = await populate({database, place});
+      const [result] = await populatePlaces({database, places: [place]});
       expect(result.type).to.be.equal('CITY');
 
       EXPECTED_COUNTRY_PROPERTIES.forEach(countryProperty => {
@@ -75,9 +75,9 @@ describe('UseCases | Places | .populate', () => {
       country = await database.countries.findByGeonameId(COUNTRY_GEONAME_ID);
     });
 
-    it('should keep all default propierties of the place', async () => {
+    it('should keep all default properties of the place', async () => {
       const IGNORE_PROPERTIES = ['population', 'createdAt', 'updatedAt'];
-      const result = await populate({database, place});
+      const [result] = await populatePlaces({database, places: [place]});
       expect(result).to.be.an('object');
       expect(result.id).to.be.equal(COUNTRY_ID);
 
@@ -87,7 +87,7 @@ describe('UseCases | Places | .populate', () => {
     });
 
     it('should return properties of a country', async () => {
-      const result = await populate({database, place});
+      const [result] = await populatePlaces({database, places: [place]});
       expect(result.type).to.be.equal('COUNTRY');
 
       EXPECTED_COUNTRY_PROPERTIES.forEach(countryProperty => {
@@ -96,7 +96,7 @@ describe('UseCases | Places | .populate', () => {
     });
 
     it('should not have parents information', async () => {
-      const result = await populate({database, place});
+      const [result] = await populatePlaces({database, places: [place]});
       expect(result.adminDivision1).to.be.a('undefined');
       expect(result.adminDivision2).to.be.a('undefined');
       expect(result.country).to.be.a('undefined');
@@ -111,14 +111,14 @@ describe('UseCases | Places | .populate', () => {
     });
 
     it('should return "localizedNames" property even when languages are not specified', async () => {
-      const result = await populate({database, place});
+      const [result] = await populatePlaces({database, places: [place]});
       expect(result.localizedNames).to.be.an('object');
       expect(result.localizedNames).to.be.eql({});
     });
 
     it('should return "localizedNames" with all required languages', async () => {
       const languages = ['en', 'de'];
-      const result = await populate({database, place, languages});
+      const [result] = await populatePlaces({database, languages, places: [place]});
       expect(result.localizedNames).to.be.an('object');
 
       languages.forEach(language => {
@@ -128,7 +128,7 @@ describe('UseCases | Places | .populate', () => {
 
     it('should return null on "localizedNames" when name for a language is not found', async () => {
       const notExistentLanguages = ['it', 'pt'];
-      const result = await populate({database, place, languages: notExistentLanguages});
+      const [result] = await populatePlaces({database, languages: notExistentLanguages, places: [place]});
       expect(result.localizedNames).to.be.an('object');
 
       notExistentLanguages.forEach(language => {
@@ -141,6 +141,7 @@ describe('UseCases | Places | .populate', () => {
 function expectParent(actualParent, expectedParent) {
   expect(actualParent).to.be.an('object');
   expect(actualParent.id).to.be.equal(expectedParent.id);
+  expect(actualParent.code).to.be.equal(expectedParent.code);
   expect(actualParent.geonameId).to.be.equal(expectedParent.geonameId);
   expect(actualParent.name).to.be.equal(expectedParent.name);
   expect(actualParent.localizedNames).to.be.an('object');

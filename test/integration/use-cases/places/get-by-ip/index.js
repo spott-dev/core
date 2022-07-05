@@ -22,7 +22,7 @@ const discoverByIpMock = sinon.stub();
 const getIpRelationsTtlMock = () => IP_RELATIONS_TTL;
 
 const getByIp = proxyquire(`${ROOT_PATH}/lib/use-cases/places/get-by-ip`, {
-  './populate': populateMock,
+  './populatePlace': populateMock,
   './discover-by-ip': discoverByIpMock,
   '../../../config': { getIpRelationsTtl: getIpRelationsTtlMock }
 });

@@ -11,7 +11,7 @@ const populateMock = sinon.spy(function(params) {
 });
 
 const getById = proxyquire(`${ROOT_PATH}/lib/use-cases/places/get-by-id`, {
-  './populate': populateMock
+  './populatePlace': populateMock
 });
 
 describe('UseCases | Places | .getById', () => {

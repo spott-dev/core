@@ -4,10 +4,10 @@ const proxyquire = require('proxyquire');
 const findByQueryAndFilter = sinon.stub().resolves([]);
 const findByAutocompleteAndFilter = sinon.stub().resolves([]);
 
-const populateIndexedPlaceMock = sinon.stub();
+const populateIndexedPlacesMock = sinon.stub();
 
 const getByQuery = proxyquire(`${ROOT_PATH}/lib/use-cases/places/get-by-query`, {
-  './populate-indexed': populateIndexedPlaceMock
+  './populate-indexed-places': populateIndexedPlacesMock
 });
 
 const database = {
@@ -21,7 +21,7 @@ describe('UseCases | Places | .getByQuery', () => {
   beforeEach(() => {
     findByAutocompleteAndFilter.resetHistory();
     findByQueryAndFilter.resetHistory();
-    populateIndexedPlaceMock.resetHistory();
+    populateIndexedPlacesMock.resetHistory();
   });
 
   it('should throw error when not sending a valid "searchMethod" parameter', () => {
@@ -148,14 +148,12 @@ describe('UseCases | Places | .getByQuery', () => {
 
     await getByQuery({database, languages, searchMethod});
 
-    expect(populateIndexedPlaceMock.callCount).to.be.equal(3);
-
-    const expectedArgs = [
-      [{database, languages, indexedPlace: INDXD_PLACE_1}],
-      [{database, languages, indexedPlace: INDXD_PLACE_2}],
-      [{database, languages, indexedPlace: INDXD_PLACE_3}]
-    ];
-    expect(populateIndexedPlaceMock.args).to.be.eql(expectedArgs);
+    expect(populateIndexedPlacesMock.callCount).to.be.equal(1);
+    expect(populateIndexedPlacesMock.args[0]).to.be.eql([{
+      database,
+      languages,
+      indexedPlaces: [INDXD_PLACE_1, INDXD_PLACE_2, INDXD_PLACE_3],
+    }]);
   });
 
   it('should return populated indexedPlaced', async () => {
@@ -166,40 +164,20 @@ describe('UseCases | Places | .getByQuery', () => {
 
     findByQueryAndFilter.resolves([1, 2, 3]);
 
-    populateIndexedPlaceMock.onCall(0).returns(PPLTD_PLACE_1);
-    populateIndexedPlaceMock.onCall(1).returns(PPLTD_PLACE_2);
-    populateIndexedPlaceMock.onCall(2).returns(PPLTD_PLACE_3);
+    populateIndexedPlacesMock.onCall(0).returns([
+      PPLTD_PLACE_1,
+      PPLTD_PLACE_2,
+      PPLTD_PLACE_3,
+    ]);
 
     const results = await getByQuery({database, searchMethod});
 
-    expect(populateIndexedPlaceMock.callCount).to.be.equal(3);
+    expect(populateIndexedPlacesMock.callCount).to.be.equal(1);
 
     const expectedResults = [
       PPLTD_PLACE_1,
       PPLTD_PLACE_2,
       PPLTD_PLACE_3
-    ];
-    expect(results).to.be.eql(expectedResults);
-  });
-
-  it('should skip nulls from result', async () => {
-    const PPLTD_PLACE_1 = 'PLACE_1';
-    const PPLTD_PLACE_2 = 'PLACE_2';
-    const searchMethod = 'SIMPLE';
-
-    findByQueryAndFilter.resolves([1, 2, 3]);
-
-    populateIndexedPlaceMock.onCall(0).returns(PPLTD_PLACE_1);
-    populateIndexedPlaceMock.onCall(1).returns(null);
-    populateIndexedPlaceMock.onCall(2).returns(PPLTD_PLACE_2);
-
-    const results = await getByQuery({database, searchMethod});
-
-    expect(populateIndexedPlaceMock.callCount).to.be.equal(3);
-
-    const expectedResults = [
-      PPLTD_PLACE_1,
-      PPLTD_PLACE_2
     ];
     expect(results).to.be.eql(expectedResults);
   });

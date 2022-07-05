@@ -1,11 +1,11 @@
 {
   "private": true,
   "name": "spott-core",
-  "version": "1.1.0",
+  "version": "1.4.0",
   "description": "Business logic for Spott",
   "main": "lib/index.js",
   "scripts": {
-    "test": "mocha -r test/index.js test/unit test/integration",
+    "test": "jest && mocha -r test/index.js test/unit test/integration",
     "migrate:pg": "knex migrate:latest",
     "migrate:es": "node ./migrations/elasticsearch/20190909_create_places_index.js"
   },
@@ -17,11 +17,17 @@
   "license": "ISC",
   "mocha": {
     "ui": "bdd",
-    "timeout": 1000,
+    "timeout": 5000,
     "fullTrace": true,
     "recursive": true,
     "exit": false,
     "bail": false
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "./test/setup.js"
+    ]
   },
   "dependencies": {
     "@elastic/elasticsearch": "8.1.0",
@@ -34,6 +40,7 @@
   "devDependencies": {
     "chai": "^4.3.4",
     "chai-as-promised": "^7.1.1",
+    "jest": "^28.1.2",
     "nock": "^13.1.1",
     "proxyquire": "^2.1.3",
     "sinon": "^11.1.1",
