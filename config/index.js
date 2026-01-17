@@ -8,7 +8,8 @@ const getPostgresConfig = () => ({
   port: env.POSTGRESQL_PORT || '5432',
   user: env.POSTGRESQL_USER || 'postgres',
   password: env.POSTGRESQL_PASS || null,
-  database: env.POSTGRESQL_DATABASE
+  database: env.POSTGRESQL_DATABASE,
+  ssl: !!env.POSTGRESQL_SSL ? { rejectUnauthorized: false } : false
 });
 
 module.exports = {
